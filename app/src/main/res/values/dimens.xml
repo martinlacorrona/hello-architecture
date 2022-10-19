@@ -1,0 +1,16 @@
+<resources>
+    <dimen name="dimen_0">0dp</dimen>
+    <dimen name="dimen_1">1dp</dimen>
+
+    <dimen name="text_size_title">48sp</dimen>
+    <dimen name="text_size_subtitle">20sp</dimen>
+    <dimen name="text_size_body">16sp</dimen>
+
+    <dimen name="margin_little">5dp</dimen>
+
+    <dimen name="user_image_size">64dp</dimen>
+    <dimen name="width_max_text_field">400dp</dimen>
+    <dimen name="width_max_card">400dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
+</resources>

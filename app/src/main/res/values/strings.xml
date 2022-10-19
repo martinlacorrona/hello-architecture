@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Hello-Architecture</string>
+    <string name="search">Search</string>
+    <string name="create_user">Create user</string>
+    <string name="edit_user">Edit user</string>
+    <string name="name">Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+    <string name="select_birthday">Select birthday</string>
+    <string name="create">Create</string>
+    <string name="an_error_has_occurred">An error has occurred</string>
+    <string name="ok">OK</string>
+    <string name="cannot_get_last_user_data">Cannot get last user data. Showing last version.</string>
+    <string name="not_possible_to_connect">Not posible to connect with server.</string>
+</resources>

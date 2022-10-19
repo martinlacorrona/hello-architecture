@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/userListFragment">
+
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="com.martinlacorrona.helloarchitecture.ui.view.userlist.UserListFragment"
+        android:label="user_list_fragment"
+        tools:layout="@layout/user_list_fragment" >
+        <action
+            android:id="@+id/action_userListFragment_to_editUserFragment"
+            app:destination="@id/editUserFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_userListFragment_to_createUserFragment"
+            app:destination="@id/createUserFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/editUserFragment"
+        android:name="com.martinlacorrona.helloarchitecture.ui.view.edituser.EditUserFragment"
+        android:label="EditUserFragment" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="remoteId"
+            app:argType="integer" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="birthday"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/createUserFragment"
+        android:name="com.martinlacorrona.helloarchitecture.ui.view.createuser.CreateUserFragment"
+        android:label="CreateUserFragment" />
+</navigation>

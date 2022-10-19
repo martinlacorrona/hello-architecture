@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="gallery_columns">1</integer>
+    <integer name="max_lines_user_item">1</integer>
+    <integer name="max_length_user_name">30</integer>
+</resources>
