@@ -62,7 +62,7 @@ class UserListFragment : Fragment() {
 
     private fun initObservers() {
         vm.userList.observe(viewLifecycleOwner) {
-            userListAdapter.addNewItems(it)
+            userListAdapter.submitList(it)
         }
         vm.isLoadingStatus.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it

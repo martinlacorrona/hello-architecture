@@ -1,20 +1,19 @@
 package com.martinlacorrona.helloarchitecture.ui.view.userlist.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.martinlacorrona.helloarchitecture.databinding.UserListItemBinding
 import com.martinlacorrona.helloarchitecture.ui.model.UserModel
 import com.martinlacorrona.helloarchitecture.ui.view.createuser.CreateUserFragment
 import com.martinlacorrona.helloarchitecture.ui.view.userlist.UserListFragmentDirections
 import com.martinlacorrona.helloarchitecture.ui.view.utils.DateUtils
-import com.martinlacorrona.helloarchitecture.databinding.UserListItemBinding
 import java.util.*
 
-class UserListAdapter : RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
-
-    private val data: ArrayList<UserModel> = arrayListOf()
+class UserListAdapter : ListAdapter<UserModel, UserListAdapter.ViewHolder>(UserModelDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -23,17 +22,10 @@ class UserListAdapter : RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(data[position])
+        viewHolder.bind(currentList[position])
     }
 
-    override fun getItemCount() = data.size
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun addNewItems(newUsers: List<UserModel>) {
-        data.clear()
-        data.addAll(newUsers)
-        notifyDataSetChanged()
-    }
+    override fun getItemCount() = currentList.size
 
     inner class ViewHolder(
         private val binding: UserListItemBinding
@@ -54,5 +46,15 @@ class UserListAdapter : RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
 
         private fun formatDate(date: Long): String =
             DateUtils.formatDate(Date(date), CreateUserFragment.DATE_PATTERN)
+    }
+
+    object UserModelDiffCallback : DiffUtil.ItemCallback<UserModel>() {
+        override fun areItemsTheSame(oldItem: UserModel, newItem: UserModel): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: UserModel, newItem: UserModel): Boolean {
+            return oldItem == newItem
+        }
     }
 }
