@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.martinlacorrona.helloarchitecture.ui.view.userlist.adapter.UserListAdapter
-import com.martinlacorrona.helloarchitecture.ui.viewmodel.UserListViewModel
 import com.martinlacorrona.helloarchitecture.R
 import com.martinlacorrona.helloarchitecture.databinding.UserListFragmentBinding
+import com.martinlacorrona.helloarchitecture.ui.view.userlist.adapter.UserListAdapter
+import com.martinlacorrona.helloarchitecture.ui.viewmodel.UserListViewModel
 import org.koin.androidx.navigation.koinNavGraphViewModel
 
 class UserListFragment : Fragment() {

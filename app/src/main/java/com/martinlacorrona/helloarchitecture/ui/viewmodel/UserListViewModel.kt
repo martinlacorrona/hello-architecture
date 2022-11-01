@@ -5,18 +5,19 @@ import com.martinlacorrona.helloarchitecture.ui.model.StatusModel
 import com.martinlacorrona.helloarchitecture.ui.model.UserModel
 import com.martinlacorrona.helloarchitecture.usecase.FetchUserListUseCase
 import com.martinlacorrona.helloarchitecture.usecase.GetUserListUseCase
+import com.martinlacorrona.helloarchitecture.usecase.IsFetchingUserListUseCase
 import kotlinx.coroutines.launch
 
 class UserListViewModel(
     private val fetchUserListUseCase: FetchUserListUseCase,
-    private val getUserListUseCase: GetUserListUseCase
+    private val getUserListUseCase: GetUserListUseCase,
+    private val isFetchingUserListUseCase: IsFetchingUserListUseCase
 ) : ViewModel() {
 
     private val _userList = MediatorLiveData<List<UserModel>>()
     val userList: LiveData<List<UserModel>> = _userList
 
-    private val _isLoadingStatus = MediatorLiveData<Boolean>().apply { postValue(false) }
-    val isLoadingStatus: LiveData<Boolean> = _isLoadingStatus
+    val isLoadingStatus: LiveData<Boolean> = isFetchingUserListUseCase.invoke()
 
     private val _isError = MediatorLiveData<Boolean>().apply { postValue(false) }
     val isError: LiveData<Boolean> = _isError
@@ -43,7 +44,6 @@ class UserListViewModel(
             viewModelScope.launch {
                 fetchUserListUseCase.invoke()
                     .collect {
-                        _isLoadingStatus.value = it == StatusModel.LOADING
                         _isError.value = it == StatusModel.ERROR
                     }
             }

@@ -11,6 +11,9 @@ val useCaseModule = module {
     single<FetchUserListUseCase> {
         return@single FetchUserListUseCaseImpl(get())
     }
+    single<IsFetchingUserListUseCase> {
+        return@single IsFetchingUserListUseCaseImpl(get())
+    }
 
     single<CreateUserUseCase> {
         return@single CreateUserUseCaseImpl(get())

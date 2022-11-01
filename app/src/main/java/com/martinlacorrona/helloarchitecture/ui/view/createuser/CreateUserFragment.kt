@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.martinlacorrona.helloarchitecture.R
+import com.martinlacorrona.helloarchitecture.databinding.CreateUserFragmentBinding
 import com.martinlacorrona.helloarchitecture.ui.view.utils.DateUtils
 import com.martinlacorrona.helloarchitecture.ui.viewmodel.CreateUserViewModel
 import com.martinlacorrona.helloarchitecture.ui.viewmodel.UserListViewModel
-import com.martinlacorrona.helloarchitecture.R
-import com.martinlacorrona.helloarchitecture.databinding.CreateUserFragmentBinding
 import org.koin.androidx.navigation.koinNavGraphViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
@@ -79,7 +80,7 @@ class CreateUserFragment : Fragment() {
         }
         vm.isDone.observe(viewLifecycleOwner) {
             if (it == true) {
-                mainVm.fetchUserList()
+                vm.fetchUserList(mainVm.viewModelScope)
                 findNavController().popBackStack()
             }
         }

@@ -5,17 +5,20 @@ import com.martinlacorrona.helloarchitecture.ui.model.StatusModel
 import com.martinlacorrona.helloarchitecture.ui.model.UserModel
 import com.martinlacorrona.helloarchitecture.usecase.DeleteUserUseCase
 import com.martinlacorrona.helloarchitecture.usecase.EditUserUseCase
+import com.martinlacorrona.helloarchitecture.usecase.FetchUserListUseCase
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.*
 
 class EditUserViewModel(
     private val editUserUseCase: EditUserUseCase,
-    private val deleteUserUseCase: DeleteUserUseCase
+    private val deleteUserUseCase: DeleteUserUseCase,
+    private val fetchUserListUseCase: FetchUserListUseCase
 ) : ViewModel() {
 
     var id = 0
     var remoteId = 0
-    val name = MutableLiveData<String>().apply { postValue("") }
+    val name = MutableLiveData<String>()
     val birthday = MutableLiveData<Date>()
 
     private val _isLoadingStatus = MediatorLiveData<Boolean>().apply { postValue(false) }
@@ -58,5 +61,13 @@ class EditUserViewModel(
 
     fun clearError() {
         _isError.value = false
+    }
+
+    fun fetchUserList(coroutineScope: CoroutineScope) {
+        if (isLoadingStatus.value != true) {
+            coroutineScope.launch {
+                fetchUserListUseCase.invoke().collect {}
+            }
+        }
     }
 }

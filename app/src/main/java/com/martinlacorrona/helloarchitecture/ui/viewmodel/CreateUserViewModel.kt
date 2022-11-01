@@ -4,16 +4,17 @@ import androidx.lifecycle.*
 import com.martinlacorrona.helloarchitecture.ui.model.StatusModel
 import com.martinlacorrona.helloarchitecture.ui.model.UserModel
 import com.martinlacorrona.helloarchitecture.usecase.CreateUserUseCase
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import com.martinlacorrona.helloarchitecture.usecase.FetchUserListUseCase
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.util.*
 
 class CreateUserViewModel(
-    private val createUserUseCase: CreateUserUseCase
+    private val createUserUseCase: CreateUserUseCase,
+    private val fetchUserListUseCase: FetchUserListUseCase
 ) : ViewModel() {
 
-    val name = MutableLiveData<String>().apply { postValue("") }
+    val name = MutableLiveData<String>()
     val birthday = MutableLiveData<Date>()
 
     private val _isLoadingStatus = MediatorLiveData<Boolean>().apply { postValue(false) }
@@ -43,5 +44,13 @@ class CreateUserViewModel(
 
     fun clearError() {
         _isError.postValue(false)
+    }
+
+    fun fetchUserList(coroutineScope: CoroutineScope) {
+        if (isLoadingStatus.value != true) {
+            coroutineScope.launch {
+                fetchUserListUseCase.invoke().collect {}
+            }
+        }
     }
 }
