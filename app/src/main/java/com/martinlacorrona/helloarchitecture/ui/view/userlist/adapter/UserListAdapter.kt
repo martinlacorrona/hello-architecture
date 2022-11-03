@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.martinlacorrona.helloarchitecture.databinding.UserListItemBinding
 import com.martinlacorrona.helloarchitecture.ui.model.UserModel
+import com.martinlacorrona.helloarchitecture.ui.view.baseuserdata.BaseUserDataFragment.Companion.DATE_PATTERN
 import com.martinlacorrona.helloarchitecture.ui.view.createuser.CreateUserFragment
 import com.martinlacorrona.helloarchitecture.ui.view.userlist.UserListFragmentDirections
 import com.martinlacorrona.helloarchitecture.ui.view.utils.DateUtils
@@ -45,7 +46,7 @@ class UserListAdapter : ListAdapter<UserModel, UserListAdapter.ViewHolder>(UserM
         }
 
         private fun formatDate(date: Long): String =
-            DateUtils.formatDate(Date(date), CreateUserFragment.DATE_PATTERN)
+            DateUtils.formatDate(Date(date), DATE_PATTERN)
     }
 
     object UserModelDiffCallback : DiffUtil.ItemCallback<UserModel>() {

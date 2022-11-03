@@ -23,52 +23,12 @@
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_0"
-        android:layout_margin="@dimen/margin_normal"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintWidth_max="@dimen/width_max_text_field">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:hint="@string/name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:startIconDrawable="@drawable/ic_baseline_person_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLength="@integer/max_length_user_name" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/birthday"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:startIconDrawable="@drawable/ic_baseline_date_range_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_birthday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:inputType="text" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </LinearLayout>
+    <include
+        android:id="@+id/name_and_birthday"
+        layout="@layout/name_and_birthday_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <LinearLayout
         android:layout_width="wrap_content"

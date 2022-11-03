@@ -31,7 +31,7 @@ class CreateUserViewModelTest {
         vm.createUser()
 
         // It's loading
-        wait1Second()
+        wait1ms()
         assertEquals(true, vm.isLoadingStatus.value)
         assertEquals(false, vm.isDone.value)
         assertEquals(false, vm.isError.value)
@@ -52,7 +52,7 @@ class CreateUserViewModelTest {
         vm.createUser()
 
         // It's done
-        wait1Second()
+        wait1ms()
         assertEquals(false, vm.isLoadingStatus.value)
         assertEquals(true, vm.isDone.value)
         assertEquals(false, vm.isError.value)
@@ -73,13 +73,13 @@ class CreateUserViewModelTest {
         vm.createUser()
 
         // It's an error
-        wait1Second()
+        wait1ms()
         assertEquals(false, vm.isLoadingStatus.value)
         assertEquals(false, vm.isDone.value)
         assertEquals(true, vm.isError.value)
     }
 
-    private fun wait1Second() {
+    private fun wait1ms() {
         Thread.sleep(1)
     }
 }

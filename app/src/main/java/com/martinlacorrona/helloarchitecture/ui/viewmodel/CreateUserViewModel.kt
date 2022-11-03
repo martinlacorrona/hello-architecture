@@ -1,30 +1,17 @@
 package com.martinlacorrona.helloarchitecture.ui.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.viewModelScope
 import com.martinlacorrona.helloarchitecture.ui.model.StatusModel
 import com.martinlacorrona.helloarchitecture.ui.model.UserModel
 import com.martinlacorrona.helloarchitecture.usecase.CreateUserUseCase
 import com.martinlacorrona.helloarchitecture.usecase.FetchUserListUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
 
 class CreateUserViewModel(
     private val createUserUseCase: CreateUserUseCase,
     private val fetchUserListUseCase: FetchUserListUseCase
-) : ViewModel() {
-
-    val name = MutableLiveData<String>()
-    val birthday = MutableLiveData<Date>()
-
-    private val _isLoadingStatus = MediatorLiveData<Boolean>().apply { postValue(false) }
-    val isLoadingStatus: LiveData<Boolean> = _isLoadingStatus
-
-    private val _isError = MediatorLiveData<Boolean>().apply { postValue(false) }
-    val isError: LiveData<Boolean> = _isError
-
-    private val _isDone = MediatorLiveData<Boolean>().apply { postValue(false) }
-    val isDone: LiveData<Boolean> = _isDone
+) : BaseUserDataViewModel() {
 
     fun createUser() {
         viewModelScope.launch {
@@ -35,15 +22,11 @@ class CreateUserViewModel(
                 )
             )
                 .collect {
-                    _isLoadingStatus.postValue(it == StatusModel.LOADING)
-                    _isDone.postValue(it == StatusModel.SUCCESS)
-                    _isError.postValue(it == StatusModel.ERROR)
+                    setIsLoadingStatus(it == StatusModel.LOADING)
+                    setIsDone(it == StatusModel.SUCCESS)
+                    setIsError(it == StatusModel.ERROR)
                 }
         }
-    }
-
-    fun clearError() {
-        _isError.postValue(false)
     }
 
     fun fetchUserList(coroutineScope: CoroutineScope) {
