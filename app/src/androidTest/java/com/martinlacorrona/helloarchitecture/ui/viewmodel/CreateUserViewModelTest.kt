@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.martinlacorrona.helloarchitecture.ui.model.StatusModel
 import com.martinlacorrona.helloarchitecture.ui.model.UserModel
 import com.martinlacorrona.helloarchitecture.usecase.CreateUserUseCase
+import com.martinlacorrona.helloarchitecture.usecase.FetchUserListUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.*
@@ -21,7 +22,10 @@ class CreateUserViewModelTest {
         val useCaseDummy = object : CreateUserUseCase {
             override fun invoke(userModel: UserModel) = flow { emit(StatusModel.LOADING) }
         }
-        val vm = CreateUserViewModel(useCaseDummy)
+        val fetchUseCaseDummy = object : FetchUserListUseCase {
+            override fun invoke() = flow { emit(StatusModel.LOADING) }
+        }
+        val vm = CreateUserViewModel(useCaseDummy, fetchUseCaseDummy)
 
         // When try to create user
         vm.createUser()
@@ -39,7 +43,10 @@ class CreateUserViewModelTest {
         val useCaseDummy = object : CreateUserUseCase {
             override fun invoke(userModel: UserModel) = flow { emit(StatusModel.SUCCESS) }
         }
-        val vm = CreateUserViewModel(useCaseDummy)
+        val fetchUseCaseDummy = object : FetchUserListUseCase {
+            override fun invoke() = flow { emit(StatusModel.LOADING) }
+        }
+        val vm = CreateUserViewModel(useCaseDummy, fetchUseCaseDummy)
 
         // When try to create user
         vm.createUser()
@@ -57,7 +64,10 @@ class CreateUserViewModelTest {
         val useCaseDummy = object : CreateUserUseCase {
             override fun invoke(userModel: UserModel) = flow { emit(StatusModel.ERROR) }
         }
-        val vm = CreateUserViewModel(useCaseDummy)
+        val fetchUseCaseDummy = object : FetchUserListUseCase {
+            override fun invoke() = flow { emit(StatusModel.LOADING) }
+        }
+        val vm = CreateUserViewModel(useCaseDummy, fetchUseCaseDummy)
 
         // When try to create user
         vm.createUser()
@@ -70,6 +80,6 @@ class CreateUserViewModelTest {
     }
 
     private fun wait1Second() {
-        Thread.sleep(1000)
+        Thread.sleep(1)
     }
 }
