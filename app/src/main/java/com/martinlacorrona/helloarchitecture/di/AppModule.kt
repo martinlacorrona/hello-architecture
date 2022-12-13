@@ -3,8 +3,8 @@ package com.martinlacorrona.helloarchitecture.di
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.martinlacorrona.helloarchitecture.BuildConfig
-import com.martinlacorrona.helloarchitecture.repository.remote.UserListRemote
-import com.martinlacorrona.helloarchitecture.repository.remote.UserRemote
+import com.martinlacorrona.helloarchitecture.data.remote.UserListRemote
+import com.martinlacorrona.helloarchitecture.data.remote.UserRemote
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module

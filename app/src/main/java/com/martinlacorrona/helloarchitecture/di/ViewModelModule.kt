@@ -1,8 +1,8 @@
 package com.martinlacorrona.helloarchitecture.di
 
-import com.martinlacorrona.helloarchitecture.ui.viewmodel.CreateUserViewModel
-import com.martinlacorrona.helloarchitecture.ui.viewmodel.EditUserViewModel
-import com.martinlacorrona.helloarchitecture.ui.viewmodel.UserListViewModel
+import com.martinlacorrona.helloarchitecture.presentation.viewmodel.CreateUserViewModel
+import com.martinlacorrona.helloarchitecture.presentation.viewmodel.EditUserViewModel
+import com.martinlacorrona.helloarchitecture.presentation.viewmodel.UserListViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

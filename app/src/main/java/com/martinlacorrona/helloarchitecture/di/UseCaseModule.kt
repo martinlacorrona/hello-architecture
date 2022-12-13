@@ -1,7 +1,7 @@
 package com.martinlacorrona.helloarchitecture.di
 
-import com.martinlacorrona.helloarchitecture.usecase.*
-import com.martinlacorrona.helloarchitecture.usecase.impl.*
+import com.martinlacorrona.helloarchitecture.domain.usecase.*
+import com.martinlacorrona.helloarchitecture.domain.usecase.impl.*
 import org.koin.dsl.module
 
 val useCaseModule = module {
