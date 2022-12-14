@@ -1,8 +1,7 @@
 package com.martinlacorrona.helloarchitecture.domain.usecase
 
-import com.martinlacorrona.helloarchitecture.domain.model.StatusModel
-import kotlinx.coroutines.flow.Flow
+import com.martinlacorrona.helloarchitecture.domain.util.Resource
 
 interface FetchUserListUseCase {
-    fun invoke(): Flow<StatusModel>
+    suspend fun invoke(): Resource<Unit>
 }

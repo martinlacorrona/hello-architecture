@@ -1,14 +1,15 @@
 package com.martinlacorrona.helloarchitecture.presentation.viewmodel
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.martinlacorrona.helloarchitecture.domain.model.StatusModel
 import com.martinlacorrona.helloarchitecture.domain.model.UserModel
 import com.martinlacorrona.helloarchitecture.domain.usecase.CreateUserUseCase
 import com.martinlacorrona.helloarchitecture.domain.usecase.FetchUserListUseCase
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
+import com.martinlacorrona.helloarchitecture.domain.util.Resource
+import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -16,14 +17,22 @@ import org.junit.runner.RunWith
 @OptIn(ExperimentalCoroutinesApi::class)
 class CreateUserViewModelTest {
 
+    @get:Rule
+    val instantTaskRule = InstantTaskExecutorRule()
+
     @Test
     fun viewModelTestLoading() = runTest {
         // Given vm with this use case
         val useCaseDummy = object : CreateUserUseCase {
-            override fun invoke(userModel: UserModel) = flow { emit(StatusModel.LOADING) }
+            override suspend fun invoke(userModel: UserModel): Resource<Unit> = runBlocking {
+                //Wait two more times to state in loading
+                wait1ms()
+                wait1ms()
+                Resource.Success()
+            }
         }
         val fetchUseCaseDummy = object : FetchUserListUseCase {
-            override fun invoke() = flow { emit(StatusModel.LOADING) }
+            override suspend fun invoke(): Resource<Unit> = Resource.Success()
         }
         val vm = CreateUserViewModel(useCaseDummy, fetchUseCaseDummy)
 
@@ -38,13 +47,13 @@ class CreateUserViewModelTest {
     }
 
     @Test
-    fun viewModelTestSuccess() = runTest {
+    fun viewModelTestSuccess() = runTest() {
         // Given vm with this use case
         val useCaseDummy = object : CreateUserUseCase {
-            override fun invoke(userModel: UserModel) = flow { emit(StatusModel.SUCCESS) }
+            override suspend fun invoke(userModel: UserModel): Resource<Unit> = Resource.Success()
         }
         val fetchUseCaseDummy = object : FetchUserListUseCase {
-            override fun invoke() = flow { emit(StatusModel.LOADING) }
+            override suspend fun invoke(): Resource<Unit> = Resource.Success()
         }
         val vm = CreateUserViewModel(useCaseDummy, fetchUseCaseDummy)
 
@@ -62,10 +71,10 @@ class CreateUserViewModelTest {
     fun viewModelTestError() = runTest {
         // Given vm with this use case
         val useCaseDummy = object : CreateUserUseCase {
-            override fun invoke(userModel: UserModel) = flow { emit(StatusModel.ERROR) }
+            override suspend fun invoke(userModel: UserModel): Resource<Unit> = Resource.Error("")
         }
         val fetchUseCaseDummy = object : FetchUserListUseCase {
-            override fun invoke() = flow { emit(StatusModel.LOADING) }
+            override suspend fun invoke(): Resource<Unit> = Resource.Success()
         }
         val vm = CreateUserViewModel(useCaseDummy, fetchUseCaseDummy)
 

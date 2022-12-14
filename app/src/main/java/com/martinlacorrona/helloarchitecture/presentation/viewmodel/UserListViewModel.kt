@@ -1,11 +1,11 @@
 package com.martinlacorrona.helloarchitecture.presentation.viewmodel
 
 import androidx.lifecycle.*
-import com.martinlacorrona.helloarchitecture.domain.model.StatusModel
 import com.martinlacorrona.helloarchitecture.domain.model.UserModel
 import com.martinlacorrona.helloarchitecture.domain.usecase.FetchUserListUseCase
 import com.martinlacorrona.helloarchitecture.domain.usecase.GetUserListUseCase
 import com.martinlacorrona.helloarchitecture.domain.usecase.IsFetchingUserListUseCase
+import com.martinlacorrona.helloarchitecture.domain.util.Resource
 import kotlinx.coroutines.launch
 
 class UserListViewModel(
@@ -34,7 +34,7 @@ class UserListViewModel(
 
     private fun getUserList(name: String) {
         viewModelScope.launch {
-            getUserListUseCase.invoke(name)
+            getUserListUseCase.invoke(name).asFlow()
                 .collect { _userList.value = it }
         }
     }
@@ -42,10 +42,9 @@ class UserListViewModel(
     fun fetchUserList() {
         if (isLoadingStatus.value != true) {
             viewModelScope.launch {
-                fetchUserListUseCase.invoke()
-                    .collect {
-                        _isError.value = it == StatusModel.ERROR
-                    }
+                if (fetchUserListUseCase.invoke() is Resource.Error) {
+                    _isError.postValue(true)
+                }
             }
         }
     }

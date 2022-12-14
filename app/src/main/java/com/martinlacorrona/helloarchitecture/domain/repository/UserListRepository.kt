@@ -1,12 +1,11 @@
 package com.martinlacorrona.helloarchitecture.domain.repository
 
 import androidx.lifecycle.LiveData
-import com.martinlacorrona.helloarchitecture.data.local.entity.UserEntity
-import com.martinlacorrona.helloarchitecture.data.util.Status
-import kotlinx.coroutines.flow.Flow
+import com.martinlacorrona.helloarchitecture.domain.model.UserModel
+import com.martinlacorrona.helloarchitecture.domain.util.Resource
 
-interface UserListRepository {
-    fun fetchUserList(): Flow<Status>
+interface UserListRepository : BaseRepository {
+    suspend fun fetchUserList(): Resource<Unit>
     fun isFetching(): LiveData<Boolean>
-    fun getUserList(name: String): Flow<List<UserEntity>>
+    fun getUserList(name: String): LiveData<List<UserModel>>
 }

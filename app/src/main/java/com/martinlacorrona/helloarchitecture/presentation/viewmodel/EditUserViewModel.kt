@@ -1,11 +1,11 @@
 package com.martinlacorrona.helloarchitecture.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.martinlacorrona.helloarchitecture.domain.model.StatusModel
 import com.martinlacorrona.helloarchitecture.domain.model.UserModel
 import com.martinlacorrona.helloarchitecture.domain.usecase.DeleteUserUseCase
 import com.martinlacorrona.helloarchitecture.domain.usecase.EditUserUseCase
 import com.martinlacorrona.helloarchitecture.domain.usecase.FetchUserListUseCase
+import com.martinlacorrona.helloarchitecture.domain.util.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -20,37 +20,37 @@ class EditUserViewModel(
 
     fun updateUser() {
         viewModelScope.launch {
-            editUserUseCase.invoke(
+            setIsLoadingStatus(true)
+            when (editUserUseCase.invoke(
                 UserModel(
                     id,
                     remoteId,
                     name.value ?: "",
                     birthday.value?.time ?: 0
                 )
-            )
-                .collect {
-                    setIsLoadingStatus(it == StatusModel.LOADING)
-                    setIsDone(it == StatusModel.SUCCESS)
-                    setIsError(it == StatusModel.ERROR)
-                }
+            )) {
+                is Resource.Success -> setIsDone(true)
+                is Resource.Error -> setIsError(true)
+            }
+            setIsLoadingStatus(false)
         }
     }
 
     fun deleteUser() {
         viewModelScope.launch {
-            deleteUserUseCase.invoke(remoteId)
-                .collect {
-                    setIsLoadingStatus(it == StatusModel.LOADING)
-                    setIsDone(it == StatusModel.SUCCESS)
-                    setIsError(it == StatusModel.ERROR)
-                }
+            setIsLoadingStatus(true)
+            when (deleteUserUseCase.invoke(remoteId)) {
+                is Resource.Success -> setIsDone(true)
+                is Resource.Error -> setIsError(true)
+            }
+            setIsLoadingStatus(false)
         }
     }
 
     fun fetchUserList(coroutineScope: CoroutineScope) {
         if (isLoadingStatus.value != true) {
             coroutineScope.launch {
-                fetchUserListUseCase.invoke().collect {}
+                fetchUserListUseCase.invoke()
             }
         }
     }

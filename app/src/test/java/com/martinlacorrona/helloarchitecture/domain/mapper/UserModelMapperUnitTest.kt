@@ -1,7 +1,9 @@
 package com.martinlacorrona.helloarchitecture.domain.mapper
 
 import com.martinlacorrona.helloarchitecture.data.local.entity.UserEntity
-import com.martinlacorrona.helloarchitecture.data.mapper.UserModelMapper
+import com.martinlacorrona.helloarchitecture.data.mapper.toUserDto
+import com.martinlacorrona.helloarchitecture.data.mapper.toUserEntity
+import com.martinlacorrona.helloarchitecture.data.mapper.toUserModel
 import com.martinlacorrona.helloarchitecture.domain.model.UserModel
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -13,7 +15,7 @@ class UserModelMapperUnitTest {
 
     @Test
     fun testMapToUserModel() {
-        val userModelMapped = UserModelMapper.mapToUserModel(dummyUserEntity)
+        val userModelMapped = dummyUserEntity.toUserModel()
         assertEquals(userModelMapped.id, dummyUserEntity.id)
         assertEquals(userModelMapped.remoteId, dummyUserEntity.remoteId)
         assertEquals(userModelMapped.name, dummyUserEntity.name)
@@ -22,7 +24,7 @@ class UserModelMapperUnitTest {
 
     @Test
     fun testMapToUserEntity() {
-        val userModelMapped = UserModelMapper.mapToUserEntity(dummyUserModel)
+        val userModelMapped = dummyUserModel.toUserEntity()
         assertEquals(userModelMapped.id, dummyUserModel.id)
         assertEquals(userModelMapped.remoteId, dummyUserModel.remoteId)
         assertEquals(userModelMapped.name, dummyUserModel.name)
@@ -31,7 +33,7 @@ class UserModelMapperUnitTest {
 
     @Test
     fun testMapToNewRemoteEntity() {
-        val userModelMapped = UserModelMapper.mapToNewRemoteEntity(dummyUserModel)
+        val userModelMapped = dummyUserModel.toUserDto()
         assertEquals(userModelMapped.id, 0)
         assertEquals(userModelMapped.name, dummyUserModel.name)
         assertEquals(userModelMapped.birthdate.time, dummyUserModel.birthday)

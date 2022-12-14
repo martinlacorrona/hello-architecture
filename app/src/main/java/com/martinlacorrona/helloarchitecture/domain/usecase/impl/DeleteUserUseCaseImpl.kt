@@ -1,16 +1,12 @@
 package com.martinlacorrona.helloarchitecture.domain.usecase.impl
 
 import com.martinlacorrona.helloarchitecture.domain.repository.UserRepository
-import com.martinlacorrona.helloarchitecture.domain.model.StatusModel
 import com.martinlacorrona.helloarchitecture.domain.usecase.DeleteUserUseCase
-import com.martinlacorrona.helloarchitecture.data.mapper.toStatusModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.martinlacorrona.helloarchitecture.domain.util.Resource
 
 class DeleteUserUseCaseImpl(
     private val userRepository: UserRepository
 ) : DeleteUserUseCase {
-    override fun invoke(remoteId: Int): Flow<StatusModel> =
+    override suspend fun invoke(remoteId: Int): Resource<Unit> =
         userRepository.removeUser(remoteId)
-            .map { it.toStatusModel() }
 }

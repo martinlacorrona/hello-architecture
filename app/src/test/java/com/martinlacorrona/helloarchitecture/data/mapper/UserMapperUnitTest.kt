@@ -12,15 +12,15 @@ class UserMapperUnitTest {
 
     @Test
     fun testMapResponseToEntity() {
-        val userModelMapped = UserMapper.mapResponseToEntity(dummyUserEntityModel)
+        val userModelMapped = dummyUserEntityModel.toUserEntity()
         assert(userModelMapped.remoteId == dummyUserEntityModel.id)
         assert(userModelMapped.name == dummyUserEntityModel.name)
         assert(userModelMapped.birthday == dummyUserEntityModel.birthdate.time)
     }
 
     @Test
-    fun testMapEntityToResponse() {
-        val userModelMapped = UserMapper.mapEntityToResponse(dummyUserEntity)
+    fun testMapEntityToDto() {
+        val userModelMapped = dummyUserEntity.toUserDto()
         assert(userModelMapped.id == dummyUserEntity.remoteId)
         assert(userModelMapped.name == dummyUserEntity.name)
         assert(userModelMapped.birthdate.time == dummyUserEntity.birthday)
