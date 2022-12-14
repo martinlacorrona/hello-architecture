@@ -16,7 +16,7 @@ I tried to follow this layer independency with package structure too, it looks l
 - Domain: every request that UI needs it's translated to an usecase (for example, fetch every user from backend) and every usecase interface
 - Presentation: for all UI classes, as Fragments, ViewModels, Adapters, Activities...
     
-This is a more detailed view of package structure.
+This is a more detailed view of package structure.  
 ![More detailed package structure](https://i.imgur.com/qyQMNOS.png)
 ### Presentation layer
 Starting with the UI part, I tried the ["Single Activity Architecture"](https://www.youtube.com/watch?v=2k8x8V77CrU) because I want try it with the new [Navigation Component](https://developer.android.com/guide/navigation) which makes build the app more easy. (You only have to have one Activity and the rest is all Fragments)  
