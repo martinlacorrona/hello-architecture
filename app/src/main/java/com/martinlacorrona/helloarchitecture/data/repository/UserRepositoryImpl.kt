@@ -1,10 +1,10 @@
 package com.martinlacorrona.helloarchitecture.data.repository
 
 import com.martinlacorrona.helloarchitecture.data.local.UserDao
-import com.martinlacorrona.helloarchitecture.data.local.entity.UserEntity
 import com.martinlacorrona.helloarchitecture.data.mapper.toUserDto
+import com.martinlacorrona.helloarchitecture.data.mapper.toUserEntity
 import com.martinlacorrona.helloarchitecture.data.remote.UserRemote
-import com.martinlacorrona.helloarchitecture.data.remote.model.UserDto
+import com.martinlacorrona.helloarchitecture.domain.model.UserModel
 import com.martinlacorrona.helloarchitecture.domain.repository.BaseRepository.Companion.RESPONSE_NOT_SUCCESSFUL_MESSAGE
 import com.martinlacorrona.helloarchitecture.domain.repository.BaseRepository.Companion.UNKNOWN_ERROR_MESSAGE
 import com.martinlacorrona.helloarchitecture.domain.repository.UserRepository
@@ -17,9 +17,9 @@ class UserRepositoryImpl(
     private val userRemote: UserRemote,
     private val databaseDispatcher: CoroutineDispatcher,
 ) : UserRepository {
-    override suspend fun createUser(userDto: UserDto): Resource<Unit> {
+    override suspend fun createUser(userModel: UserModel): Resource<Unit> {
         return try {
-            val response = userRemote.createUser(userDto)
+            val response = userRemote.createUser(userModel.toUserDto())
             if (!response.isSuccessful) Resource.Error(RESPONSE_NOT_SUCCESSFUL_MESSAGE)
             else {
                 Resource.Success()
@@ -29,13 +29,13 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun updateUser(userEntity: UserEntity): Resource<Unit> {
+    override suspend fun updateUser(userModel: UserModel): Resource<Unit> {
         return try {
-            val response = userRemote.updateUser(userEntity.toUserDto())
+            val response = userRemote.updateUser(userModel.toUserDto())
             withContext(databaseDispatcher) {
                 if (!response.isSuccessful) Resource.Error(RESPONSE_NOT_SUCCESSFUL_MESSAGE)
                 else {
-                    userDao.updateUser(userEntity)
+                    userDao.updateUser(userModel.toUserEntity())
                     Resource.Success()
                 }
             }
