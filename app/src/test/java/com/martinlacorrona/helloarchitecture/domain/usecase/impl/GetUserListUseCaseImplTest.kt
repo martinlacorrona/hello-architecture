@@ -7,7 +7,6 @@ import com.martinlacorrona.helloarchitecture.domain.usecase.GetUserListUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -32,9 +31,7 @@ class GetUserListUseCaseImplTest {
         getUserListUseCase = GetUserListUseCaseImpl(userListRepository)
     }
 
-    //TODO: FIX THIS TESTS
-
-    /*@Test
+    @Test
     fun `get 2 user list`() = runBlocking {
         //Given
         coEvery { userListRepository.getUserList("") } returns flowOf(
@@ -45,10 +42,10 @@ class GetUserListUseCaseImplTest {
         )
 
         //When
-        val result = getUserListUseCase.invoke("")
+        val result = getUserListUseCase.invoke("").first()
 
         //Then
-        assertEquals(2, result.value!!.size)
+        assertEquals(2, result.size)
     }
 
     @Test
@@ -58,13 +55,13 @@ class GetUserListUseCaseImplTest {
             arrayListOf(
                 UserModel(),
             )
-        )
+        ).apply { first() }
 
         //When
-        val result = getUserListUseCase.invoke("")
+        val result = getUserListUseCase.invoke("").first()
 
         //Then
-        assertEquals(1, result.value!!.size)
+        assertEquals(1, result.size)
     }
 
     @Test
@@ -73,9 +70,9 @@ class GetUserListUseCaseImplTest {
         coEvery { userListRepository.getUserList("") } returns flowOf(arrayListOf())
 
         //When
-        val result = getUserListUseCase.invoke("")
+        val result = getUserListUseCase.invoke("").first()
 
         //Then
-        assert(result.value!!.isEmpty())
-    }*/
+        assert(result.isEmpty())
+    }
 }

@@ -1,7 +1,7 @@
 package com.martinlacorrona.helloarchitecture.domain.usecase
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 interface IsFetchingUserListUseCase {
-    fun invoke(): LiveData<Boolean>
+    fun invoke(): Flow<Boolean>
 }

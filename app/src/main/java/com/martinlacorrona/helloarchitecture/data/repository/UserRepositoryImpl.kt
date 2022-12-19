@@ -5,8 +5,6 @@ import com.martinlacorrona.helloarchitecture.data.mapper.toUserDto
 import com.martinlacorrona.helloarchitecture.data.mapper.toUserEntity
 import com.martinlacorrona.helloarchitecture.data.remote.UserRemote
 import com.martinlacorrona.helloarchitecture.domain.model.UserModel
-import com.martinlacorrona.helloarchitecture.domain.repository.BaseRepository.Companion.RESPONSE_NOT_SUCCESSFUL_MESSAGE
-import com.martinlacorrona.helloarchitecture.domain.repository.BaseRepository.Companion.UNKNOWN_ERROR_MESSAGE
 import com.martinlacorrona.helloarchitecture.domain.repository.UserRepository
 import com.martinlacorrona.helloarchitecture.domain.util.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,12 +18,9 @@ class UserRepositoryImpl(
     override suspend fun createUser(userModel: UserModel): Resource<Unit> {
         return try {
             val response = userRemote.createUser(userModel.toUserDto())
-            if (!response.isSuccessful) Resource.Error(RESPONSE_NOT_SUCCESSFUL_MESSAGE)
-            else {
-                Resource.Success()
-            }
+            onResponse(response)
         } catch (e: Exception) {
-            Resource.Error(e.message ?: UNKNOWN_ERROR_MESSAGE)
+            exceptionError(e)
         }
     }
 
@@ -33,14 +28,10 @@ class UserRepositoryImpl(
         return try {
             val response = userRemote.updateUser(userModel.toUserDto())
             withContext(databaseDispatcher) {
-                if (!response.isSuccessful) Resource.Error(RESPONSE_NOT_SUCCESSFUL_MESSAGE)
-                else {
-                    userDao.updateUser(userModel.toUserEntity())
-                    Resource.Success()
-                }
+                onResponse(response) { userDao.updateUser(userModel.toUserEntity()) }
             }
         } catch (e: Exception) {
-            Resource.Error(e.message ?: UNKNOWN_ERROR_MESSAGE)
+            exceptionError(e)
         }
     }
 
@@ -48,14 +39,10 @@ class UserRepositoryImpl(
         return try {
             val response = userRemote.deleteUser(userRemoteId)
             withContext(databaseDispatcher) {
-                if (!response.isSuccessful) Resource.Error(RESPONSE_NOT_SUCCESSFUL_MESSAGE)
-                else {
-                    userDao.deleteUser(userRemoteId)
-                    Resource.Success()
-                }
+                onResponse(response) { userDao.deleteUser(userRemoteId) }
             }
         } catch (e: Exception) {
-            Resource.Error(e.message ?: UNKNOWN_ERROR_MESSAGE)
+            exceptionError(e)
         }
     }
 }

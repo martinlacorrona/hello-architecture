@@ -17,7 +17,7 @@ class UserListViewModel(
     private val _userList = MediatorLiveData<List<UserModel>>()
     val userList: LiveData<List<UserModel>> = _userList
 
-    val isLoadingStatus: LiveData<Boolean> = isFetchingUserListUseCase.invoke()
+    val isLoadingStatus: LiveData<Boolean> = isFetchingUserListUseCase.invoke().asLiveData()
 
     private val _isError = MediatorLiveData<Boolean>().apply { postValue(false) }
     val isError: LiveData<Boolean> = _isError
@@ -34,7 +34,7 @@ class UserListViewModel(
 
     private fun getUserList(name: String) {
         viewModelScope.launch {
-            getUserListUseCase.invoke(name).asFlow()
+            getUserListUseCase.invoke(name)
                 .collect { _userList.value = it }
         }
     }
