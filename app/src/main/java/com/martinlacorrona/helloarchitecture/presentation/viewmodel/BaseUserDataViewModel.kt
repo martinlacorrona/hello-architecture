@@ -4,9 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.martinlacorrona.helloarchitecture.domain.usecase.FetchUserListUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.util.*
 
-open class BaseUserDataViewModel : ViewModel() {
+open class BaseUserDataViewModel(
+    private val fetchUserListUseCase: FetchUserListUseCase
+) : ViewModel() {
 
     val name = MutableLiveData<String>()
     val birthday = MutableLiveData<Date>()
@@ -34,5 +39,13 @@ open class BaseUserDataViewModel : ViewModel() {
 
     fun clearError() {
         _isError.value = false
+    }
+
+    fun fetchUserList(coroutineScope: CoroutineScope) {
+        if (isLoadingStatus.value != true) {
+            coroutineScope.launch {
+                fetchUserListUseCase.invoke()
+            }
+        }
     }
 }

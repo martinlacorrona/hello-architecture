@@ -31,7 +31,7 @@ And to prove how easy is to have an adaptable layout and did it in this way.
 Creating a values integer files different depends on weight if it's more than 600dp:  
 ![Values integer files](https://i.imgur.com/cKIchfo.png)
 ![Contain](https://i.imgur.com/IIDgMHY.png)  
-If it's more thant 600 it has 2 gallery per column, if's not, only 1.
+If it's more than 600dp it has 2 gallery per column, if's not, only 1.
 And with this code it allows you to show more or less columns:  
 ![Code](https://i.imgur.com/SHRoXWa.png)
 ![Portrait mode](https://i.imgur.com/T0ezdKL.png)
@@ -40,11 +40,11 @@ And with this code it allows you to show more or less columns:
 ### Domain layer
 Where every UseCase live.  
 I use again Flow to comunicate with viewmodels.  
-I always create and interface for every usecase to make me testing more easy.
+I always create and interface for every usecase to make testing more easy.
 
 ### Data
 I use Room to save user data (using own model which saves remoteId from backend) with Flow too.
-I use Retrofit to call backend with suspend functions.
+I use Retrofit with coroutines to call backend with suspend functions.
 
 ### Repository data flow
 ![Repository data flow](https://i.imgur.com/BOFmL5d.png)
@@ -56,6 +56,7 @@ I use Retrofit to call backend with suspend functions.
 6. Repo inform usecase with new data
 
 ## Testing
-I tested one view model to show how it's possible to test coroutines and I tested every mapper to show how simple is to unit test in Android.  
+I tested every line on domain and data package.
+For presentation package, I only test one viewmodel to show how it's possible to test coroutines.  
 
-For ViewModel is easy to test the behaviour because you can implement an usecase interface and do whatever you want. 
+I use [Mockk](https://mockk.io/) library for this tests. (amazing for kotlin <3)

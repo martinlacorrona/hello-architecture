@@ -43,32 +43,48 @@ class CreateUserViewModelTest {
     }
 
     @Test
-    fun `view model create success`() = runTest() {
+    fun `view model create success`() = runTest {
         // Given vm with this use case
         val userModel = UserModel()
         coEvery { createUserUseCase.invoke(userModel) } returns Resource.Success()
 
-        // When try to create user
+        // When
         vm.createUser()
 
-        // It's done
+        // It
         assertEquals(false, vm.isLoadingStatus.value)
         assertEquals(true, vm.isDone.value)
         assertEquals(false, vm.isError.value)
     }
 
     @Test
-    fun `view model create error`() = runTest() {
-        // Given vm with this use case
+    fun `view model create error`() = runTest {
+        // Given
         val userModel = UserModel()
         coEvery { createUserUseCase.invoke(userModel) } returns Resource.Error("")
 
-        // When try to create user
+        // When
         vm.createUser()
 
-        // It's done
+        // It
         assertEquals(false, vm.isLoadingStatus.value)
         assertEquals(false, vm.isDone.value)
         assertEquals(true, vm.isError.value)
+    }
+
+    @Test
+    fun `view model clean after error`() = runTest {
+        // Given
+        val userModel = UserModel()
+        coEvery { createUserUseCase.invoke(userModel) } returns Resource.Error("")
+
+        // When
+        vm.createUser()
+        vm.clearError()
+
+        // It
+        assertEquals(false, vm.isLoadingStatus.value)
+        assertEquals(false, vm.isDone.value)
+        assertEquals(false, vm.isError.value)
     }
 }

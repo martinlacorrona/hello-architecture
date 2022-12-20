@@ -90,6 +90,20 @@ class UserRepositoryImplTest {
     }
 
     @Test
+    fun `create user remote unknown exception`() = runBlocking {
+        //Given
+        val userModel = UserModel()
+        coEvery { userRemote.createUser(userModel.toUserDto()) } throws Exception()
+
+        //When
+        val result = userRepository.createUser(userModel)
+
+        //Then
+        assert(result is Resource.Error)
+        assertEquals(BaseRepository.UNKNOWN_ERROR_MESSAGE, result.message)
+    }
+
+    @Test
     fun `update remote success`() = runBlocking {
         //Given
         val userModel = UserModel()
